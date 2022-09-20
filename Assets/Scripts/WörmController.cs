@@ -35,19 +35,18 @@ public class WörmController : MonoBehaviour
         float _vertical = Input.GetAxisRaw("Vertical");
 
         Direction = new Vector3(_horizontal, 0f, _vertical).normalized;
+
+        float _targetAngle = Mathf.Atan2(Direction.x, Direction.z) * Mathf.Rad2Deg + Cam.eulerAngles.y;
+        float _angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref TurnSmoothVelocity, RotateSpeed);
+        transform.rotation = Quaternion.Euler(0f, _angle, 0f);
+
         if (Direction.magnitude >= 0.1f)
         {
-            float _targetAngle = Mathf.Atan2(Direction.x, Direction.z) * Mathf.Rad2Deg + Cam.eulerAngles.y;
-            float _angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref TurnSmoothVelocity, RotateSpeed);
-            transform.rotation = Quaternion.Euler(0f, _angle, 0f);
-
             MoveDirection = Quaternion.Euler(0f, _targetAngle, 0f) * Vector3.forward;
-            Controller.Move(MoveDirection.normalized * Speed * Time.deltaTime);
+            Controller.Move(Speed * Time.deltaTime * MoveDirection.normalized);
         }
+        if (Input.GetButtonDown("Jump") && IsGrounded) { Jump(); }
         Gravity();
-        if(Input.GetButtonDown("Jump") && IsGrounded){ Jump(); }
-
-        Controller.Move(Velocity * Time.deltaTime);
     }
 
     void Gravity()
@@ -57,6 +56,7 @@ public class WörmController : MonoBehaviour
             Velocity.y = -2f;
         }
         Velocity.y += GravityConstant * Time.deltaTime;
+        Controller.Move(Velocity * Time.deltaTime);
     }
     void Jump()
     {
