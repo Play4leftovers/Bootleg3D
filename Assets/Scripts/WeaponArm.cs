@@ -5,6 +5,7 @@ using UnityEngine;
 public class WeaponArm : MonoBehaviour
 {
     public Transform Cam;
+    public GameObject CurrentGun;
     void Start()
     {
         
@@ -14,5 +15,14 @@ public class WeaponArm : MonoBehaviour
     void Update()
     {
         transform.rotation = Quaternion.Euler(Cam.transform.eulerAngles.x, Cam.transform.eulerAngles.y, 0f);
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Shoot();
+        }
+    }
+
+    void Shoot()
+    {
+        CurrentGun.GetComponent<WeaponFire>().Fire();
     }
 }
