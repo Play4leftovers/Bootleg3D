@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterController))]
+//[RequireComponent(typeof(CharacterController))]
 public class WörmController : MonoBehaviour
 {
     public float Speed = 3.0f;
@@ -26,7 +26,7 @@ public class WörmController : MonoBehaviour
     {
         Controller = GetComponent<CharacterController>();
     }
-
+    
     void Update()
     {
         IsGrounded = Physics.CheckSphere(GroundCheck.position, GroundDistance, GroundMask);
@@ -43,21 +43,20 @@ public class WörmController : MonoBehaviour
         if (Direction.magnitude >= 0.1f)
         {
             MoveDirection = Quaternion.Euler(0f, _targetAngle, 0f) * Vector3.forward;
-            Controller.Move(MoveDirection.normalized * Speed * Time.deltaTime);
+            Controller.Move(Speed * Time.deltaTime * MoveDirection.normalized);
         }
+        if (Input.GetButtonDown("Jump") && IsGrounded) { Jump(); }
         Gravity();
-        if(Input.GetButtonDown("Jump") && IsGrounded){ Jump(); }
-
-        Controller.Move(Velocity * Time.deltaTime);
     }
 
     void Gravity()
     {
+        Velocity.y += GravityConstant * Time.deltaTime;
         if (IsGrounded && Velocity.y < 0)
         {
             Velocity.y = -2f;
         }
-        Velocity.y += GravityConstant * Time.deltaTime;
+        Controller.Move(Velocity * Time.deltaTime);
     }
     void Jump()
     {
