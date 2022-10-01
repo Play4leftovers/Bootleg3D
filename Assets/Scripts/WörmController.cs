@@ -10,6 +10,7 @@ public class WörmController : MonoBehaviour
     public float TurnSmoothVelocity;
     public float GravityConstant = -9.81f;
     public float JumpHeight = 3f;
+    [HideInInspector] public bool Moving = false;
     public Transform Cam;
 
     CharacterController Controller;
@@ -44,6 +45,11 @@ public class WörmController : MonoBehaviour
         {
             MoveDirection = Quaternion.Euler(0f, _targetAngle, 0f) * Vector3.forward;
             Controller.Move(Speed * Time.deltaTime * MoveDirection.normalized);
+            Moving = true;
+        }
+        else
+        {
+            Moving = false;
         }
         if (Input.GetButtonDown("Jump") && IsGrounded) { Jump(); }
         Gravity();

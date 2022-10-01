@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class WeaponFire : MonoBehaviour
 {
-    public GameObject BulletPrefab;
+    public GameObject ProjectilePrefab;
+    [SerializeField] float FiringForce;
     public void Fire()
     {
-        GameObject Missile = Instantiate(BulletPrefab, transform.GetChild(0).position, transform.rotation);
-        Missile.GetComponent<Rigidbody>().AddForce(Missile.transform.up * 1000);
+        GameObject Missile = Instantiate(ProjectilePrefab, transform.GetChild(0).position, transform.rotation);
+        Missile.GetComponent<Rigidbody>().AddForce(Missile.transform.forward * FiringForce);
     }
 }
