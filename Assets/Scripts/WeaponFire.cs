@@ -5,7 +5,7 @@ using UnityEngine;
 public class WeaponFire : MonoBehaviour
 {
     public GameObject ProjectilePrefab;
-    [SerializeField] float FiringForce;
+    public float FiringForce;
     public void Fire()
     {
         GameObject Missile = Instantiate(ProjectilePrefab, transform.GetChild(0).position, transform.rotation);

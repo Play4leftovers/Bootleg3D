@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Shootable
   - Ground
+  - Pellet
   layers:
   - Default
   - TransparentFX

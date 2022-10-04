@@ -11,9 +11,11 @@ public class WeaponArm : MonoBehaviour
 
     [SerializeField] PlayerInput _playerInput;
     private InputAction _shootAction;
+    //private InputAction _switchAction;
 
     private void Awake()
     {
+        //_switchAction = _playerInput.actions["WeaponSwitch"];
         _shootAction = _playerInput.actions["Shoot"];
         UpdateWeapon(StartingGun);
     }

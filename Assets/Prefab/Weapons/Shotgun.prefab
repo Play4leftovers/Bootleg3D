@@ -329,9 +329,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d861af55a058248a350524859d55e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ProjectilePrefab: {fileID: 3582224856810851375, guid: 26f58df6251e56a41b6864481fc93aa1,
+  ProjectilePrefab: {fileID: 4169926969645145352, guid: 598a3eb80ca6e0a40953c20e6e4c0397,
     type: 3}
-  FiringForce: 1000
+  FiringForce: 0
 --- !u!1 &8681787367804900666
 GameObject:
   m_ObjectHideFlags: 0
