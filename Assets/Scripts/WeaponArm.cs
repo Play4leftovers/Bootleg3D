@@ -6,7 +6,9 @@ using UnityEngine.InputSystem;
 public class WeaponArm : MonoBehaviour
 {
     public Transform Cam;
+
     GameObject CurrentGun;
+
     [SerializeField] GameObject StartingGun;
 
     [SerializeField] PlayerInput _playerInput;
@@ -21,7 +23,7 @@ public class WeaponArm : MonoBehaviour
     }
     private void Update()
     {
-        if (GetComponentInParent<WörmController>().Moving == false)
+        if (GetComponentInParent<WörmController>().Moving == false && GetComponentInParent<WörmController>().Active == true)
         {
             transform.rotation = Quaternion.Euler(Cam.transform.eulerAngles.x, Cam.transform.eulerAngles.y, 0f);
         }
@@ -29,7 +31,7 @@ public class WeaponArm : MonoBehaviour
 
     void Shoot()
     {
-        if (GetComponentInParent<WörmController>().Moving == false)
+        if (GetComponentInParent<WörmController>().Moving == false && GetComponentInParent<WörmController>().Active == true)
         {
             CurrentGun.GetComponent<WeaponFire>().Fire();
         }

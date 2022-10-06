@@ -5,6 +5,8 @@ using UnityEngine;
 //[RequireComponent(typeof(CharacterController))]
 public class WörmController : MonoBehaviour
 {
+    public bool Active = false;
+
     public float Speed = 3.0f;
     public float RotateSpeed = 0.05f;
     public float TurnSmoothVelocity;
@@ -27,31 +29,36 @@ public class WörmController : MonoBehaviour
     {
         Controller = GetComponent<CharacterController>();
     }
-    
     void Update()
     {
         IsGrounded = Physics.CheckSphere(GroundCheck.position, GroundDistance, GroundMask);
-        
-        float _horizontal = Input.GetAxisRaw("Horizontal");
-        float _vertical = Input.GetAxisRaw("Vertical");
-
-        Direction = new Vector3(_horizontal, 0f, _vertical).normalized;
-
-        float _targetAngle = Mathf.Atan2(Direction.x, Direction.z) * Mathf.Rad2Deg + Cam.eulerAngles.y;
-        float _angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref TurnSmoothVelocity, RotateSpeed);
-        transform.rotation = Quaternion.Euler(0f, _angle, 0f);
-
-        if (Direction.magnitude >= 0.1f)
+        if (Active)
         {
-            MoveDirection = Quaternion.Euler(0f, _targetAngle, 0f) * Vector3.forward;
-            Controller.Move(Speed * Time.deltaTime * MoveDirection.normalized);
-            Moving = true;
+            float _horizontal = Input.GetAxisRaw("Horizontal");
+            float _vertical = Input.GetAxisRaw("Vertical");
+
+            Direction = new Vector3(_horizontal, 0f, _vertical).normalized;
+
+            float _targetAngle = Mathf.Atan2(Direction.x, Direction.z) * Mathf.Rad2Deg + Cam.eulerAngles.y;
+            float _angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref TurnSmoothVelocity, RotateSpeed);
+            transform.rotation = Quaternion.Euler(0f, _angle, 0f);
+
+            if (Direction.magnitude >= 0.1f)
+            {
+                MoveDirection = Quaternion.Euler(0f, _targetAngle, 0f) * Vector3.forward;
+                Controller.Move(Speed * Time.deltaTime * MoveDirection.normalized);
+            }
+
+            if (!IsGrounded || Direction.magnitude >= 0.1f)
+            {
+                Moving = true;
+            }
+            else
+            {
+                Moving = false;
+            }
+            if (Input.GetButtonDown("Jump") && IsGrounded) { Jump(); }
         }
-        else
-        {
-            Moving = false;
-        }
-        if (Input.GetButtonDown("Jump") && IsGrounded) { Jump(); }
         Gravity();
     }
 

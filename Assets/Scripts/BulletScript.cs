@@ -11,6 +11,7 @@ public class BulletScript : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             other.gameObject.GetComponent<WörmStats>().TakeDamage(ImpactDamage);
+            print(other.gameObject.GetComponent<WörmStats>().Health);
             Destroy(gameObject);
         }
         if (!other.CompareTag("Pellet"))

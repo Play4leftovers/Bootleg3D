@@ -8,21 +8,9 @@ public class WörmStats : MonoBehaviour
     public int PlayerID;
     public Transform Worm;
 
-    // Start is called before the first frame update
-    void Start()
+    public void TakeDamage(int _damage)
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void TakeDamage(int damage)
-    {
-        Health -= damage;
+        Health -= _damage;
         if (Health <= 0)
         {
             Death();
@@ -31,6 +19,6 @@ public class WörmStats : MonoBehaviour
     
     void Death()
     {
-        Destroy(Worm);
+        Destroy(Worm.gameObject);
     }
 }

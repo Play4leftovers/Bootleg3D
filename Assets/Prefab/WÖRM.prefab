@@ -45,7 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Cam: {fileID: 0}
-  CurrentGun: {fileID: 0}
+  StartingGun: {fileID: 8190123001934419988, guid: a93b73760301b2a43980689b7dc128d4,
+    type: 3}
+  _playerInput: {fileID: 574293969259913180}
 --- !u!1 &2191041270069051401
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,6 +174,7 @@ GameObject:
   - component: {fileID: 2191041270956828619}
   - component: {fileID: 2191041270956828618}
   - component: {fileID: 2191041270956828617}
+  - component: {fileID: 574293969259913180}
   m_Layer: 4
   m_Name: "W\xD6RM"
   m_TagString: Player
@@ -227,11 +230,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efe673e87b5f2734ca5c0e445da6f6a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Active: 0
   Speed: 3
   RotateSpeed: 0.05
   TurnSmoothVelocity: 0
   GravityConstant: -9.81
   JumpHeight: 3
+  Moving: 0
   Cam: {fileID: 0}
   GroundCheck: {fileID: 2191041271226944660}
   GroundDistance: 0.4
@@ -254,3 +259,34 @@ MonoBehaviour:
   Health: 100
   PlayerID: 0
   Worm: {fileID: 3256270848670627971}
+--- !u!114 &574293969259913180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4763997709419412612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 40c22392874daaa46b0d9e03f5d69872,
+    type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
