@@ -266,6 +266,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   State: 0
   Worm: {fileID: 4763997709419412612, guid: fd76be58a8465a045b5cebf7a100840c, type: 3}
+  AimCam: {fileID: 1016266455}
+  TPSCam: {fileID: 1539814355}
 --- !u!1 &696706351
 GameObject:
   m_ObjectHideFlags: 3
