@@ -4,12 +4,12 @@ using UnityEngine;
 
 public struct TeamStruct
 {
-    public GameObject[] TeamMembers;
+    public List<GameObject> TeamMembers;
     //public Dictionary<GameObject, int> Ammo;
     public int TeamNumber;
-    public TeamStruct(int _memberSize, int _teamNumber)
+    public TeamStruct(int _teamNumber)
     {
-        TeamMembers = new GameObject[_memberSize];
+        TeamMembers = new List<GameObject>();
         TeamNumber = _teamNumber;
     }
 }

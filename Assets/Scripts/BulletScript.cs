@@ -14,7 +14,7 @@ public class BulletScript : MonoBehaviour
             print(other.gameObject.GetComponent<WörmStats>().Health);
             Destroy(gameObject);
         }
-        if (!other.CompareTag("Pellet"))
+        if (other.CompareTag("Ground"))
         {
             Destroy(gameObject);
         }

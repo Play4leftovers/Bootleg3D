@@ -5,11 +5,10 @@ using UnityEngine;
 public class Explosion : MonoBehaviour
 {
     public GameObject explosionEffect;
-    public float ExplosionRange = 5.0f;
+    public float ExplosionRange = 500.0f;
     public float Damage = 50;
-    private void Awake()
+    private void Start()
     {
-        Instantiate(explosionEffect, transform.position, transform.rotation);
 
         Collider[] Hits = Physics.OverlapSphere(transform.position, ExplosionRange);
         foreach (Collider _nearbyObjects in Hits)
@@ -20,7 +19,7 @@ public class Explosion : MonoBehaviour
                 _stats.TakeDamage((int)(Damage / (Vector3.Distance(_stats.gameObject.transform.position, transform.position))));
             }
         }
-
+        Instantiate(explosionEffect, transform.position, transform.rotation);
         Destroy(gameObject);
     }
 }

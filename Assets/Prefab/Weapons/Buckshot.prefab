@@ -45,9 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4b1f14549130ce49a3c7622a2c0a2b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxSpread: 0.09
+  _maxSpread: 0.04
   _pelletAmount: 12
-  _pelletForce: 500
+  _pelletForce: 250
   Pellets: {fileID: 3582224856810851375, guid: 26f58df6251e56a41b6864481fc93aa1, type: 3}
 --- !u!54 &2636729459801220975
 Rigidbody:

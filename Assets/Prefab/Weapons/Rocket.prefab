@@ -48,7 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ImpactDamage: 0
-  Explosion: {fileID: 1121192042590650, guid: e1b08032bec16ba4eb1ae23cbd572664, type: 3}
+  Explosion: {fileID: 3806669200685328707, guid: 5cfd916180eb3fd44ae5dad0a21b143a,
+    type: 3}
 --- !u!136 &6392050937747889335
 CapsuleCollider:
   m_ObjectHideFlags: 0

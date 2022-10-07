@@ -8,7 +8,10 @@ public class RocketScript : MonoBehaviour
     public GameObject Explosion;
     private void OnTriggerEnter(Collider other)
     {
-        Instantiate(Explosion, transform.position, transform.rotation);
-        Destroy(gameObject);
+        if (other.CompareTag("Ground"))
+        {
+            Instantiate(Explosion, transform.position, transform.rotation);
+            Destroy(gameObject);
+        }
     }
 }

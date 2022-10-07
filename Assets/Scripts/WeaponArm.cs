@@ -7,19 +7,30 @@ public class WeaponArm : MonoBehaviour
 {
     public Transform Cam;
 
-    GameObject CurrentGun;
+    public bool Fired = false;
 
-    [SerializeField] GameObject StartingGun;
+    GameObject _currentGun; 
+    [SerializeField] GameObject[] _currentGunList = new GameObject[2];
+    public bool _gunNumber = true;
 
     [SerializeField] PlayerInput _playerInput;
     private InputAction _shootAction;
-    //private InputAction _switchAction;
+    private InputAction _switchAction;
 
     private void Awake()
     {
-        //_switchAction = _playerInput.actions["WeaponSwitch"];
+        _switchAction = _playerInput.actions["WeaponSwitch"];
         _shootAction = _playerInput.actions["Shoot"];
-        UpdateWeapon(StartingGun);
+        UpdateWeapon(_currentGunList[0]);
+        
+    }
+    private void Start()
+    {
+        Cam = GetComponentInParent<WörmController>().Cam;
+    }
+    public void UpdateCam()
+    {
+        Cam = GetComponentInParent<WörmController>().Cam;
     }
     private void Update()
     {
@@ -31,19 +42,35 @@ public class WeaponArm : MonoBehaviour
 
     void Shoot()
     {
-        if (GetComponentInParent<WörmController>().Moving == false && GetComponentInParent<WörmController>().Active == true)
+        if (GetComponentInParent<WörmController>().Moving == false && GetComponentInParent<WörmController>().Active == true && Fired == false)
         {
-            CurrentGun.GetComponent<WeaponFire>().Fire();
+            _currentGun.GetComponent<WeaponFire>().Fire();
+            Fired = true;
+        }
+    }
+    void Switch()
+    {
+        
+        if(_gunNumber == false)
+        {
+            UpdateWeapon(_currentGunList[0]);
+            _gunNumber = true;
+        }
+        else
+        {
+            UpdateWeapon(_currentGunList[1]);
+            _gunNumber = false;
         }
     }
     public void UpdateWeapon(GameObject _weapon)
     {
-        Destroy(CurrentGun);
-        CurrentGun = Instantiate(_weapon, this.transform.position, this.transform.rotation, this.transform);
+        Destroy(_currentGun);
+        _currentGun = Instantiate(_weapon, this.transform.position, this.transform.rotation, this.transform);
     }
 
     private void OnEnable()
     {
         _shootAction.performed += _ => Shoot();
+        _switchAction.performed += _ => Switch();
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,12 +14,17 @@ public class GameManager : MonoBehaviour
 
     List<TeamStruct> Teams;
     public GameObject Worm;
+    GameObject _currWorm;
 
-    private int _turnNumber = 0;
-    private int _wormNumber = 0;
+    [SerializeField] private int _turnNumber = 0;
+    [SerializeField] private int _wormNumber = 0;
 
     public CinemachineVirtualCamera AimCam;
     public CinemachineVirtualCamera TPSCam;
+    public Transform PrimeCam;
+
+    [SerializeField] PlayerInput _playerInput;
+    private InputAction _endTurnAction;
 
     private void Awake()
     {
@@ -30,6 +36,7 @@ public class GameManager : MonoBehaviour
         {
             _instance = this;
         }
+        _endTurnAction = _playerInput.actions["EndTurn"];
     }
 
     private void Start()
@@ -47,9 +54,12 @@ public class GameManager : MonoBehaviour
                 TeamAssignment(2, 4);
                 break;
             case GameState.PlayerTurn:
-                NewTurn();
+                StartNewTurn();
                 break;
-            case GameState.victory:
+            case GameState.EndTurn:
+                EndOldTurn();
+                break;
+            case GameState.Victory:
                 PlayerVictory();
                 break;
         }
@@ -60,13 +70,14 @@ public class GameManager : MonoBehaviour
     {
         for(int i = 0; i < _numberOfTeams; i++)
         {
-            TeamStruct _tempTeam = new(_numberOfWorms, i+1);
+            TeamStruct _tempTeam = new(i+1);
             Color _teamColor = new Color(UnityEngine.Random.value, UnityEngine.Random.value, UnityEngine.Random.value, 1.0f);
 
             for(int x = 0; x < _numberOfWorms; x++)
             {
                 Vector3 _randSpawnPos = new(UnityEngine.Random.Range(-50, 51), 5, UnityEngine.Random.Range(-50, 51));
-                _tempTeam.TeamMembers[x] = Instantiate(Worm, _randSpawnPos, Quaternion.identity);
+                //_tempTeam.TeamMembers[x] = Instantiate(Worm, _randSpawnPos, Quaternion.identity);
+                _tempTeam.TeamMembers.Add(Instantiate(Worm, _randSpawnPos, Quaternion.identity));
                 _tempTeam.TeamMembers[x].GetComponentInChildren<Renderer>().material.color = _teamColor;
             }
 
@@ -80,20 +91,52 @@ public class GameManager : MonoBehaviour
         
     }
 
-    private void NewTurn()
+    private void StartNewTurn()
     {
         //To do
         //Find active worm from team
         //Add Cameras to its variables so it follows correctly
         //When has fired, end turn and make a new turn
         //When no more of one team exists, call upon PlayerVictory
-        GameObject _currWorm = Teams[_turnNumber].TeamMembers[_wormNumber];
-        _currWorm.GetComponent<WörmController>().Active = true;
-        TPSCam.m_LookAt = _currWorm.transform;
-        AimCam.m_LookAt = _currWorm.transform;
+        if (Teams[_turnNumber].TeamMembers[_wormNumber] != null)
+        {
+            _currWorm = Teams[_turnNumber].TeamMembers[_wormNumber];
 
-        TPSCam.m_Follow = _currWorm.transform;
-        AimCam.m_Follow = _currWorm.transform;
+            _currWorm.GetComponent<WörmController>().Cam = PrimeCam;
+            _currWorm.GetComponentInChildren<WeaponArm>().UpdateCam();
+            _currWorm.GetComponent<WörmController>().Active = true;
+            TPSCam.m_LookAt = _currWorm.transform;
+            AimCam.m_LookAt = _currWorm.transform;
+
+            TPSCam.m_Follow = _currWorm.transform;
+            AimCam.m_Follow = _currWorm.transform;
+        }
+        else
+        {
+            UpdateGameState(GameState.EndTurn);
+        }
+    }
+    private void EndOldTurn()
+    {
+        _currWorm.GetComponent<WörmController>().Active = false;
+        _currWorm.GetComponentInChildren<WeaponArm>().Fired = false;
+
+        _turnNumber++;
+        if(_turnNumber >= Teams.Count)
+        {
+            _wormNumber++;
+            if(_wormNumber == Teams[_turnNumber - 1].TeamMembers.Count)
+            {
+                _wormNumber = 0;
+            }
+            _turnNumber = 0;
+
+        }
+        UpdateGameState(GameState.PlayerTurn);
+    }
+    private void OnEnable()
+    {
+        _endTurnAction.performed += _ => UpdateGameState(GameState.EndTurn);
     }
 }
 
@@ -101,5 +144,6 @@ public enum GameState
 {
     AssignTeams,
     PlayerTurn,
-    victory
+    EndTurn,
+    Victory
 }
