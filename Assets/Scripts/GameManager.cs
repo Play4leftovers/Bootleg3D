@@ -88,6 +88,7 @@ public class GameManager : MonoBehaviour
         //When has fired, end turn and make a new turn
         //When no more of one team exists, call upon PlayerVictory
         GameObject _currWorm = Teams[_turnNumber].TeamMembers[_wormNumber];
+        _currWorm.GetComponent<WörmController>().Active = true;
         TPSCam.m_LookAt = _currWorm.transform;
         AimCam.m_LookAt = _currWorm.transform;
 
